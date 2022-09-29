@@ -20,6 +20,7 @@ class UserAdmin(BaseUserAdmin, admin.ModelAdmin):
         (None,{'fields': ('email', 'password')}),
 
         ('Personal Details',{'fields': ('fullName', 'contactNumber')}),
+        ('Auth Details',{'fields': ('role', 'active','staff','admin')}),
     )
 
     add_fieldsets = (
