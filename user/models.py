@@ -19,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=20, choices=__selectRoles, default='client')
 
     active = models.BooleanField(default=True)
-    staff_user = models.BooleanField(default=False)  # a admin user; non super-user
+    staff = models.BooleanField(default=False)  # a admin user; non super-user
     admin = models.BooleanField(default=False)  # a superuser
 
 
@@ -47,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
     @property
-    def is_staff_user(self):
+    def is_staff(self):
         "Is the user a member of staff?"
         # check if user has a HID assigned to the profile.
         return self.staff

@@ -10,7 +10,7 @@ class JobType(models.Model):
 class Client(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
 
-class Staff(models.Model):
+class StaffMember(models.Model):
     STAFF_ROLE = [
         ("ADMIN","Admin Staff"),
         ("MANAGER","Manager"),
@@ -37,14 +37,14 @@ class Request(models.Model):
     client = models.ForeignKey("Client",on_delete=models.CASCADE,null=True,blank=True)
     is_reviewed = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
-    reviewed_by =  models.ForeignKey("Staff",on_delete=models.CASCADE,null=True,blank=True)
+    reviewed_by =  models.ForeignKey("StaffMember",on_delete=models.CASCADE,null=True,blank=True)
     status = models.CharField(max_length=100,choices=STATUS_CHOICES,default="PENDING")
-    created_date = models.DateTimeField(auto_created=True)
+    created_date = models.DateTimeField(auto_now_add=True,blank=True)
 
 
 
 class Project(models.Model):
-    manager = models.ForeignKey("Staff",on_delete=models.CASCADE)
+    manager = models.ForeignKey("StaffMember",on_delete=models.CASCADE)
     client = models.ForeignKey("Client",on_delete=models.CASCADE)
     location = models.CharField(max_length=500,null=True,blank=True)
     description = models.CharField(max_length=255,null=True,blank=True)
@@ -58,7 +58,7 @@ class Job(models.Model):
         ("CLOSED", "Payments closed"),
         ("ON_PROGRESS", "ON_PROGRESS"),
     ]
-    supervisor = models.ForeignKey("Staff",on_delete=models.CASCADE)
+    supervisor = models.ForeignKey("StaffMember",on_delete=models.CASCADE)
     project = models.ForeignKey("Project",on_delete=models.CASCADE)
     description = models.CharField(max_length=255,null=True,blank=True)
     status = models.CharField(max_length=100,choices=STATUS_CHOICES,default="PENDING")
@@ -72,7 +72,7 @@ class Task(models.Model):
         ("CLOSED", "Payments closed"),
         ("ON_PROGRESS", "ON_PROGRESS"),
     ]
-    supervisor = models.ForeignKey("Staff",on_delete=models.CASCADE)
+    supervisor = models.ForeignKey("StaffMember",on_delete=models.CASCADE)
     job = models.ForeignKey("Job",on_delete=models.CASCADE)
     description = models.CharField(max_length=255,null=True,blank=True)
     status = models.CharField(max_length=100,choices=STATUS_CHOICES,default="PENDING")
@@ -80,7 +80,7 @@ class Task(models.Model):
 
 
 class SiteDiary(models.Model):
-    supervisor = models.ForeignKey("Staff", on_delete=models.CASCADE)
+    supervisor = models.ForeignKey("StaffMember", on_delete=models.CASCADE)
     task = models.ForeignKey("Task", on_delete=models.CASCADE)
     description = models.CharField(max_length=255, null=True, blank=True)
     last_update = models.DateTimeField(auto_now=True)
