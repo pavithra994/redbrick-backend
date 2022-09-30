@@ -33,7 +33,7 @@ class Request(models.Model):
     job_type = models.ForeignKey("JobType",on_delete=models.CASCADE,related_name="request_related")
     guest_name = models.CharField(max_length=255)
     guest_email = models.EmailField(null=True,blank=True)
-    guest_phone = models.EmailField(null=True,blank=True)
+    guest_phone = models.CharField(max_length=30,null=True,blank=True)
     client = models.ForeignKey("Client",on_delete=models.CASCADE,null=True,blank=True)
     is_reviewed = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
