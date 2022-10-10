@@ -7,6 +7,7 @@ class JobType(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=30)
     description = models.CharField(max_length=255, null=True, blank=True)
+    packages = models.JSONField(null=True,blank=True)
 
     def __str__(self):
         return f"{self.id}: {self.name}"
